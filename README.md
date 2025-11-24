@@ -1,4 +1,4 @@
-# BackLog---Guardi-Verde
+# BackLog---Guardiã-Verde
 Aplicação de IA no monitoramento e controle do desmatamento por meio de imagens de satélites. 
 Monitoramento de Desmatamento com Dados Abertos e Inteligência Artificial
 Detectando mudanças na floresta em tempo quase real através de análise de imagens de satélite.
