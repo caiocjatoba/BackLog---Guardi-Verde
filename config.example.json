@@ -1,0 +1,110 @@
+{
+  "project": {
+    "name": "Guardiã Verde",
+    "version": "1.0.0",
+    "description": "Monitoramento de desmatamento com IA e dados abertos"
+  },
+  
+  "area_of_interest": {
+    "name": "Eirunepé",
+    "description": "Município na Amazônia Ocidental",
+    "bbox": [-69.9, -6.7, -69.5, -6.3],
+    "crs": "EPSG:4326",
+    "biome": "Amazônia"
+  },
+  
+  "temporal": {
+    "date_t0": "2024-01-01",
+    "date_t1": "2024-06-01",
+    "max_cloud_cover": 20,
+    "temporal_window_days": 15
+  },
+  
+  "detection": {
+    "ndvi_threshold": -0.15,
+    "nbr_threshold": -0.2,
+    "min_area_hectares": 0.5,
+    "max_area_hectares": 10000,
+    "morphological_kernel_size": 3
+  },
+  
+  "stac": {
+    "catalog_url": "https://earth-search.aws.element84.com/v1",
+    "collection": "sentinel-2-l2a",
+    "bands": ["B02", "B03", "B04", "B08", "B11", "B12", "SCL"],
+    "resolution": 10
+  },
+  
+  "preprocessing": {
+    "cloud_mask": true,
+    "shadow_mask": true,
+    "scl_classes_to_mask": [0, 1, 3, 8, 9, 10],
+    "atmospheric_correction": true
+  },
+  
+  "indices": {
+    "ndvi": {
+      "enabled": true,
+      "formula": "(B08 - B04) / (B08 + B04)"
+    },
+    "nbr": {
+      "enabled": true,
+      "formula": "(B08 - B12) / (B08 + B12)",
+      "use_case": "Detecção de queimadas"
+    }
+  },
+  
+  "output": {
+    "path": "outputs/",
+    "format": "geojson",
+    "crs": "EPSG:4326",
+    "generate_map": true,
+    "generate_report": true,
+    "generate_statistics": true
+  },
+  
+  "map": {
+    "center": [-69.7, -6.5],
+    "zoom": 10,
+    "basemap": "Esri.WorldImagery",
+    "show_legend": true,
+    "show_controls": true
+  },
+  
+  "validation": {
+    "enabled": true,
+    "sources": ["mapbiomas", "prodes", "deter"],
+    "buffer_meters": 100
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "file": "logs/guardia_verde.log",
+    "console": true
+  },
+  
+  "metadata": {
+    "author": "Equipe Guardiã Verde",
+    "institution": "Universidade São Judas Tadeu",
+    "course": "Engenharia de Software",
+    "license": "MIT"
+  },
+  
+  "presets": {
+    "amazonia": {
+      "ndvi_threshold": -0.15,
+      "min_area_hectares": 0.5,
+      "max_cloud_cover": 20
+    },
+    "cerrado": {
+      "ndvi_threshold": -0.12,
+      "min_area_hectares": 1.0,
+      "max_cloud_cover": 25
+    },
+    "mata_atlantica": {
+      "ndvi_threshold": -0.18,
+      "min_area_hectares": 0.3,
+      "max_cloud_cover": 30
+    }
+  }
+}
